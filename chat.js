@@ -57,7 +57,8 @@ async function refreshChat() {
       ? `${typingUser.trim()} is typing...` : "";
     document.getElementById("typingStatus").innerText = display;
   } catch (e) {
-    console.error("Error refreshing:", e);
+    console.error("Error refreshing chat:", e.message);
+    document.getElementById("chatLog").innerText = "Failed to load chat messages.";
   }
 }
 
@@ -78,5 +79,7 @@ async function updateTypingStatus(user) {
   const { sha } = await githubGetContent(typingFile);
   await githubPutContent(typingFile, user, sha, "Typing status update");
 }
-
+refreshChat();  // ← This ensures the chat loads immediately
 setInterval(refreshChat, 1000);
+
+
